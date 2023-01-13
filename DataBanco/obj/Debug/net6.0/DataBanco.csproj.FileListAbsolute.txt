@@ -1,0 +1,12 @@
+D:\TUP\Programacion\Programas\BancoCRUD\DataBanco\bin\Debug\net6.0\DataBanco.deps.json
+D:\TUP\Programacion\Programas\BancoCRUD\DataBanco\bin\Debug\net6.0\DataBanco.dll
+D:\TUP\Programacion\Programas\BancoCRUD\DataBanco\bin\Debug\net6.0\DataBanco.pdb
+D:\TUP\Programacion\Programas\BancoCRUD\DataBanco\obj\Debug\net6.0\DataBanco.csproj.AssemblyReference.cache
+D:\TUP\Programacion\Programas\BancoCRUD\DataBanco\obj\Debug\net6.0\DataBanco.GeneratedMSBuildEditorConfig.editorconfig
+D:\TUP\Programacion\Programas\BancoCRUD\DataBanco\obj\Debug\net6.0\DataBanco.AssemblyInfoInputs.cache
+D:\TUP\Programacion\Programas\BancoCRUD\DataBanco\obj\Debug\net6.0\DataBanco.AssemblyInfo.cs
+D:\TUP\Programacion\Programas\BancoCRUD\DataBanco\obj\Debug\net6.0\DataBanco.csproj.CoreCompileInputs.cache
+D:\TUP\Programacion\Programas\BancoCRUD\DataBanco\obj\Debug\net6.0\DataBanco.dll
+D:\TUP\Programacion\Programas\BancoCRUD\DataBanco\obj\Debug\net6.0\refint\DataBanco.dll
+D:\TUP\Programacion\Programas\BancoCRUD\DataBanco\obj\Debug\net6.0\DataBanco.pdb
+D:\TUP\Programacion\Programas\BancoCRUD\DataBanco\obj\Debug\net6.0\ref\DataBanco.dll
