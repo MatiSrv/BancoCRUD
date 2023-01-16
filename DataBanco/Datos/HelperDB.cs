@@ -53,7 +53,9 @@ namespace DataBanco.Datos
         public DataTable Consulta(string Sp)
         {
             DataTable dt = new DataTable();
-            cnn.Open();
+            if(cnn.State==ConnectionState.Closed)
+                cnn.Open();
+
             SqlCommand cmd = new SqlCommand(Sp, cnn);
             cmd.CommandType = CommandType.StoredProcedure;
             dt.Load(cmd.ExecuteReader());

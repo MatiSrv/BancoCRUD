@@ -36,6 +36,7 @@ namespace CapaPresentacion
 
         private void CargarCuentas()
         {
+            dgvCuentas.Rows.Clear();
             List<Cuenta> lcuentas = Servicio.Cuentas();
 
             foreach (Cuenta c in lcuentas)
@@ -93,6 +94,7 @@ namespace CapaPresentacion
             cboTipoCuenta.Enabled = !v;
             dtpFecha.Enabled = !v;
             btnAgregar.Enabled = !v;
+            btnGenerar.Enabled = !v;
         }
         private void LimpiarCampos()
         {
@@ -126,29 +128,47 @@ namespace CapaPresentacion
         private void btnAgregar_Click(object sender, EventArgs e)
         {
             Habilitar(true);
-            LimpiarCampos();
+           
             Cuenta c = new Cuenta();
             AbstraerCuenta(c);
             Servicio.AltaCta(c);
             CargarCuentas();
-
+            LimpiarCampos();
         }
         private void AbstraerCuenta(Cuenta c)
         {
             long cbu;
             double saldo;
-            string v;
-            string V;
-            v = txtCBU.Text;
-            V = txtSaldo.Text;
-            c.Cbu = Convert.ToInt64(v);
-            c.Saldo = Convert.ToDouble(V);
+
+            cbu = Convert.ToInt64(txtCBU.Text);
+            saldo = Convert.ToDouble(txtSaldo.Text);
+            c.Cbu = cbu;
+            c.Saldo = saldo;
             c.CodTipoCuenta = cboTipoCuenta.SelectedIndex + 1;
             c.UltimoMovimiento = dtpFecha.Value;
             Cliente cliente = (Cliente)cboCliente.SelectedItem;
             c.CodCli = cliente.Id;
         }
 
-      
+        private void btnEliminar_Click(object sender, EventArgs e)
+        {
+            if (dgvCuentas.SelectedRows.Count > 0)
+            {
+                int cod = Convert.ToInt32(dgvCuentas.CurrentRow.Cells[0].Value);
+                Servicio.BajaCuenta(cod);
+                CargarCuentas();
+            }
+            else
+                MessageBox.Show("Debe Seleccionar una cuenta", "ATENCION", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        }
+
+        private void btnGenerar_Click(object sender, EventArgs e)
+        {
+            var random = new Random();
+            var number = string.Concat(Enumerable.Range(0, 15).Select(x => random.Next(0, 10)));
+            txtCBU.Clear();
+            txtCBU.Text = number;
+        }
     }
+    
 }

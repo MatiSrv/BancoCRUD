@@ -18,7 +18,7 @@ namespace DataBanco.Datos.Implementacion
 
         public bool Baja(int c)
         {
-            return HelperDB.GetInstance().BajaCta("SP_DeleteCuente", c);
+            return HelperDB.GetInstance().BajaCta("SP_DeleteCuenta", c);
         }
 
         public List<Cuenta> Cargar_Cuentas()

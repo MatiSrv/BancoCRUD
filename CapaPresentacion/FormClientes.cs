@@ -1,20 +1,10 @@
 ﻿using CapaPresentacion.Servicios.Implementacion;
 using CapaPresentacion.Servicios.Interfaces;
-using DataBanco.Datos;
 using DataBanco.Dominio;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace CapaPresentacion
 {
-    
+
     public partial class FormClientes : Form
     {
         private bool Editar;
@@ -43,7 +33,7 @@ namespace CapaPresentacion
 
             foreach (Cliente c in lClientes)
             {
-                dgvClientes.Rows.Add(c.Id,c.Nombre,c.Apellido,c.Dni);
+                dgvClientes.Rows.Add(c.Id, c.Nombre, c.Apellido, c.Dni);
             }
         }
         private void LimpiarCampos()
@@ -78,14 +68,14 @@ namespace CapaPresentacion
             Editar = false;
             txtDNI.Enabled = true;
             HabilitarCampos(true);
-            
+
         }
 
         private void btnEditar_Click(object sender, EventArgs e)
         {
             Editar = true;
-            
-           
+
+
 
 
             if (dgvClientes.SelectedRows.Count > 0)
@@ -99,12 +89,12 @@ namespace CapaPresentacion
                 txtDNI.Text = dgvClientes.CurrentRow.Cells[3].Value.ToString();
             }
             else
-                MessageBox.Show("Debe Seleccionar un cliente","ATENCION",MessageBoxButtons.OK,MessageBoxIcon.Warning);
+                MessageBox.Show("Debe Seleccionar un cliente", "ATENCION", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
 
         private void btnEliminar_Click(object sender, EventArgs e)
         {
-           
+
             if (dgvClientes.SelectedRows.Count > 0)
             {
                 try
@@ -115,20 +105,13 @@ namespace CapaPresentacion
                     {
                         Servicio.BajaCliente(dni);
                         CargarClientes();
+                        MessageBox.Show("Cuenta eliminada con exito");
                     }
-                    else
-                    {
-                        MessageBox.Show("El cliente aun posee cuentas activas, por favor, primero elimine dichas cuentas");
-                    }
-
                 }
                 catch (Exception)
                 {
                     MessageBox.Show("El cliente aun posee cuentas activas, por favor, primero elimine dichas cuenta");
                 }
-                
-                
-                
             }
             else
                 MessageBox.Show("Debe Seleccionar un cliente", "ATENCION", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -136,22 +119,22 @@ namespace CapaPresentacion
 
         private void btnAceptar_Click(object sender, EventArgs e)
         {
-            if(Editar==false)
-            try
-            {
-                clienteselct = new Cliente();
-                clienteselct.Nombre = txtNombre.Text;
-                clienteselct.Apellido = txtApellido.Text;
-                clienteselct.Dni =Convert.ToInt32( txtDNI.Text);
+            if (Editar == false)
+                try
+                {
+                    clienteselct = new Cliente();
+                    clienteselct.Nombre = txtNombre.Text;
+                    clienteselct.Apellido = txtApellido.Text;
+                    clienteselct.Dni = Convert.ToInt32(txtDNI.Text);
 
-                Servicio.AltaCli(clienteselct);
-                CargarClientes();
-                LimpiarCampos();
-            }
-            catch(Exception ex)
-            {
-                MessageBox.Show("Ha ocurrido un error >:O"+ex.Message);
-            }
+                    Servicio.AltaCli(clienteselct);
+                    CargarClientes();
+                    LimpiarCampos();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Ha ocurrido un error >:O" + ex.Message);
+                }
 
             if (Editar == true)
             {
@@ -175,5 +158,5 @@ namespace CapaPresentacion
             }
         }
     }
-    
+
 }

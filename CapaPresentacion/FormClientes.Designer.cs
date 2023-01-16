@@ -28,6 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.lblCli = new System.Windows.Forms.Label();
             this.lblNombre = new System.Windows.Forms.Label();
             this.txtNombre = new System.Windows.Forms.TextBox();
@@ -196,16 +200,49 @@
             // dgvClientes
             // 
             this.dgvClientes.AllowUserToAddRows = false;
-            this.dgvClientes.BackgroundColor = System.Drawing.Color.DarkSlateBlue;
+            this.dgvClientes.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(49)))), ((int)(((byte)(66)))), ((int)(((byte)(82)))));
+            this.dgvClientes.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.dgvClientes.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(80)))), ((int)(((byte)(200)))));
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.Red;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvClientes.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dgvClientes.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvClientes.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.cID,
             this.cNombre,
             this.cApellido,
             this.cDNI});
-            this.dgvClientes.GridColor = System.Drawing.SystemColors.ActiveCaptionText;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvClientes.DefaultCellStyle = dataGridViewCellStyle2;
+            this.dgvClientes.EnableHeadersVisualStyles = false;
+            this.dgvClientes.GridColor = System.Drawing.Color.White;
             this.dgvClientes.Location = new System.Drawing.Point(27, 128);
             this.dgvClientes.Name = "dgvClientes";
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(80)))), ((int)(((byte)(200)))));
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.Red;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvClientes.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(49)))), ((int)(((byte)(66)))), ((int)(((byte)(82)))));
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.Red;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.White;
+            this.dgvClientes.RowsDefaultCellStyle = dataGridViewCellStyle4;
             this.dgvClientes.RowTemplate.Height = 25;
             this.dgvClientes.Size = new System.Drawing.Size(621, 370);
             this.dgvClientes.TabIndex = 16;
@@ -214,21 +251,25 @@
             // 
             this.cID.HeaderText = "ID";
             this.cID.Name = "cID";
+            this.cID.Width = 50;
             // 
             // cNombre
             // 
             this.cNombre.HeaderText = "Nombre";
             this.cNombre.Name = "cNombre";
+            this.cNombre.Width = 150;
             // 
             // cApellido
             // 
             this.cApellido.HeaderText = "Apellido";
             this.cApellido.Name = "cApellido";
+            this.cApellido.Width = 150;
             // 
             // cDNI
             // 
             this.cDNI.HeaderText = "Dni";
             this.cDNI.Name = "cDNI";
+            this.cDNI.Width = 150;
             // 
             // FormClientes
             // 
