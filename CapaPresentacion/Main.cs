@@ -115,5 +115,13 @@ namespace CapaPresentacion
         {
 
         }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            if(MessageBox.Show("Esta seguro que desea salir del programa?", "SALIR", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                this.Close();
+            }
+        }
     }
 }

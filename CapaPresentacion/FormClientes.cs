@@ -24,6 +24,7 @@ namespace CapaPresentacion
         {
             CargarClientes();
             HabilitarCampos(false);
+            txtID.Enabled = false;
         }
 
         private void CargarClientes()
@@ -55,7 +56,6 @@ namespace CapaPresentacion
             txtApellido.Enabled = v;
             txtDNI.Enabled = v;
             txtNombre.Enabled = v;
-            txtID.Enabled = v;
             btnAceptar.Enabled = v;
             btnCancelar.Enabled = v;
 
@@ -120,47 +120,114 @@ namespace CapaPresentacion
 
         private void btnAceptar_Click(object sender, EventArgs e)
         {
-            if (Editar == false)
-                try
-                {
-                    clienteselct = new Cliente();
-                    clienteselct.Nombre = txtNombre.Text;
-                    clienteselct.Apellido = txtApellido.Text;
-                    clienteselct.Dni = Convert.ToInt32(txtDNI.Text);
-
-                    Servicio.AltaCli(clienteselct);
-                    CargarClientes();
-                    LimpiarCampos();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Ha ocurrido un error >:O" + ex.Message);
-                }
-
-            if (Editar == true)
+            if (Validacion())
             {
-                try
-                {
-                    clienteselct = new Cliente();
-                    clienteselct.Id = Convert.ToInt32(txtID.Text);
-                    clienteselct.Nombre = txtNombre.Text;
-                    clienteselct.Apellido = txtApellido.Text;
-                    clienteselct.Dni = Convert.ToInt32(txtDNI.Text);
+                if (Editar == false)
+                    try
+                    {
+                        clienteselct = new Cliente();
+                        clienteselct.Nombre = txtNombre.Text;
+                        clienteselct.Apellido = txtApellido.Text;
+                        clienteselct.Dni = Convert.ToInt32(txtDNI.Text);
 
-                    Servicio.Modificacion(clienteselct);
-                    CargarClientes();
-                    LimpiarCampos();
-                    HabilitarCampos(false);
-                }
-                catch (Exception ex)
+                        Servicio.AltaCli(clienteselct);
+                        CargarClientes();
+                        LimpiarCampos();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Ha ocurrido un error >:O" + ex.Message);
+                    }
+
+                if (Editar == true)
                 {
-                    MessageBox.Show("Ha ocurrido un error >:O" + ex.Message);
+                    try
+                    {
+                        clienteselct = new Cliente();
+                        clienteselct.Id = Convert.ToInt32(txtID.Text);
+                        clienteselct.Nombre = txtNombre.Text;
+                        clienteselct.Apellido = txtApellido.Text;
+                        clienteselct.Dni = Convert.ToInt32(txtDNI.Text);
+
+                        Servicio.Modificacion(clienteselct);
+                        CargarClientes();
+                        LimpiarCampos();
+                        HabilitarCampos(false);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Ha ocurrido un error >:O" + ex.Message);
+                    }
+                
+
+
                 }
             }
-
-
         }
-        
+
+
+
+        /*
+         ------------------------------------------------------------------------------------------
+        -----------------------------------------VALIDACIONES---------------------------------------
+        ------------------------------------------------------------------------------------------
+         */
+
+        private bool Validacion()
+        {
+            if (txtApellido.Text == String.Empty)
+            {
+                MessageBox.Show("El cliente debe tener un apellido", "ATENCION", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+            if(txtDNI.Text == String.Empty)
+            {
+                MessageBox.Show("El cliente debe tener un numero de DNI", "ATENCION", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false; 
+            }
+            if (txtNombre.Text == String.Empty) {
+                MessageBox.Show("El cliente debe tener un nombre", "ATENCION", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                return false;
+            }
+
+            return true;
+        }
+        private void txtNombre_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (char.IsLetter(e.KeyChar)||char.IsControl(e.KeyChar)||char.IsSeparator(e.KeyChar))
+            {
+                return;
+            }
+            e.Handled = true;
+        }
+
+        private void txtApellido_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (char.IsLetter(e.KeyChar) || char.IsControl(e.KeyChar) || char.IsSeparator(e.KeyChar))
+            {
+                return;
+            }
+            e.Handled = true;
+        }
+
+        private void txtID_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if(char.IsNumber(e.KeyChar) || char.IsControl(e.KeyChar))
+            {
+                return;
+            }
+            e.Handled = true;
+        }
+
+        private void txtDNI_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if(char.IsNumber(e.KeyChar) || char.IsControl(e.KeyChar) )
+            {
+                return;
+            }
+            e.Handled = true;
+        }
     }
 
 

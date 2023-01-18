@@ -1,16 +1,7 @@
 ﻿using CapaPresentacion.Servicios.Implementacion;
 using CapaPresentacion.Servicios.Interfaces;
-using DataBanco.Datos.Interfaces;
 using DataBanco.Dominio;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace CapaPresentacion
 {
@@ -52,8 +43,8 @@ namespace CapaPresentacion
             comboBox.DisplayMember = "NombreCompleto";
             comboBox.ValueMember = "Id";
         }
-       
-       
+
+
         private void Habilitar(bool v)
         {
             btnAgregarCta.Enabled = v;
@@ -73,6 +64,7 @@ namespace CapaPresentacion
         {
             txtCBU.Clear();
             txtSaldo.Clear();
+            txtSaldo.Text = ",00";
             cboCliente.SelectedIndex = 0;
             cboTipoCuenta.SelectedIndex = 0;
             dtpFecha.Value = DateTime.Today;
@@ -100,14 +92,33 @@ namespace CapaPresentacion
 
         private void btnAgregar_Click(object sender, EventArgs e)
         {
-            Habilitar(true);
-           
-            Cuenta c = new Cuenta();
-            AbstraerCuenta(c);
-            Servicio.AltaCta(c);
-            CargarCuentas();
-            LimpiarCampos();
+            if (ValidacionCampos())
+            {
+                Habilitar(true);
+
+                Cuenta c = new Cuenta();
+                AbstraerCuenta(c);
+                Servicio.AltaCta(c);
+                CargarCuentas();
+                LimpiarCampos();
+            }
         }
+
+        private bool ValidacionCampos()
+        {
+            if (txtCBU.Text == String.Empty)
+            {
+                MessageBox.Show("La cuenta debe tener un CBU", "Registro de cuenta", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return false;
+            }
+            if (txtSaldo.Text == String.Empty)
+            {
+                MessageBox.Show("La cuenta debe tener un CBU", "Registro de cuenta", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return false;
+            }
+            return true;
+        }
+
         private void AbstraerCuenta(Cuenta c)
         {
             long cbu;
@@ -145,35 +156,35 @@ namespace CapaPresentacion
 
         private void cboBuscar_TextChanged(object sender, EventArgs e)
         {
-                if (cboBuscar.Text == "Tipo de Cuenta")
-                {
-                    cboBuscarTipoCuenta.Visible = true;
-                    cboBuscarCli.Visible = false;
-                    lblDesde.Visible = false;
-                    lblHasta.Visible = false;
-                    dtpDesde.Visible = false;
-                    dtpHasta.Visible = false;
-                }
-                if (cboBuscar.Text == "Cliente")
-                {
-                    cboBuscarCli.Visible = true;
-                    cboBuscarTipoCuenta.Visible = false;
-                    lblDesde.Visible = false;
-                    lblHasta.Visible = false;
-                    dtpDesde.Visible = false;
-                    dtpHasta.Visible = false;
-                }
-                if (cboBuscar.Text == "Fecha de Movimientos")
-                {
+            if (cboBuscar.Text == "Tipo de Cuenta")
+            {
+                cboBuscarTipoCuenta.Visible = true;
+                cboBuscarCli.Visible = false;
+                lblDesde.Visible = false;
+                lblHasta.Visible = false;
+                dtpDesde.Visible = false;
+                dtpHasta.Visible = false;
+            }
+            if (cboBuscar.Text == "Cliente")
+            {
+                cboBuscarCli.Visible = true;
+                cboBuscarTipoCuenta.Visible = false;
+                lblDesde.Visible = false;
+                lblHasta.Visible = false;
+                dtpDesde.Visible = false;
+                dtpHasta.Visible = false;
+            }
+            if (cboBuscar.Text == "Fecha de Movimientos")
+            {
 
-                    lblDesde.Visible = true;
-                    lblHasta.Visible = true;
-                    dtpDesde.Visible = true;
-                    dtpHasta.Visible = true;
-                    cboBuscarTipoCuenta.Visible = false;
-                    cboBuscarCli.Visible = false;
-                }
-           
+                lblDesde.Visible = true;
+                lblHasta.Visible = true;
+                dtpDesde.Visible = true;
+                dtpHasta.Visible = true;
+                cboBuscarTipoCuenta.Visible = false;
+                cboBuscarCli.Visible = false;
+            }
+
         }
         private void IniciarFiltros()
         {
@@ -187,48 +198,88 @@ namespace CapaPresentacion
 
         private void btnBuscar_Click(object sender, EventArgs e)
         {
-            if (cboBuscar.Text == "Tipo de Cuenta")
+            if (Validacion())
             {
-                string tc = cboBuscarTipoCuenta.Text;
-                dgvCuentas.Rows.Clear();
-                List <Cuenta> lcuentas = Servicio.Cargar_CuentasTC(tc);
-                foreach (Cuenta c in lcuentas)
+                if (cboBuscar.Text == "Tipo de Cuenta")
                 {
-                    dgvCuentas.Rows.Add(c.CodCuenta, c.TipoCuenta, c.Cbu, c.Saldo, c.NombreCli, c.UltimoMovimiento.ToString("d/MM/yyyy"));
+                    string tc = cboBuscarTipoCuenta.Text;
+                    dgvCuentas.Rows.Clear();
+                    List<Cuenta> lcuentas = Servicio.Cargar_CuentasTC(tc);
+                    foreach (Cuenta c in lcuentas)
+                    {
+                        dgvCuentas.Rows.Add(c.CodCuenta, c.TipoCuenta, c.Cbu, c.Saldo, c.NombreCli, c.UltimoMovimiento.ToString("d/MM/yyyy"));
+                    }
+                }
+                if (cboBuscar.Text == "Cliente")
+                {
+                    dgvCuentas.Rows.Clear();
+
+
+                    Cliente cli = (Cliente)cboBuscarCli.SelectedItem;
+                    List<Cuenta> lcuentas = Servicio.Cargar_CuentasCLI(cli.Dni);
+                    foreach (Cuenta c in lcuentas)
+                    {
+                        dgvCuentas.Rows.Add(c.CodCuenta, c.TipoCuenta, c.Cbu, c.Saldo, c.NombreCli, c.UltimoMovimiento.ToString("d/MM/yyyy"));
+                    }
+                }
+                if (cboBuscar.Text == "Fecha de Movimientos")
+                {
+                    dgvCuentas.Rows.Clear();
+
+                    DateTime desde = dtpDesde.Value;
+                    DateTime hasta = dtpHasta.Value;
+
+                    List<Cuenta> lcuentas = Servicio.Cargar_CuentasFEC(desde, hasta);
+                    foreach (Cuenta c in lcuentas)
+                    {
+                        dgvCuentas.Rows.Add(c.CodCuenta, c.TipoCuenta, c.Cbu, c.Saldo, c.NombreCli, c.UltimoMovimiento.ToString("d/MM/yyyy"));
+                    }
                 }
             }
-            if (cboBuscar.Text == "Cliente")
+
+        }
+
+        private bool Validacion()
+        {
+            if (cboBuscar.SelectedIndex == -1)
             {
-                dgvCuentas.Rows.Clear();
-
-
-                Cliente cli = (Cliente)cboBuscarCli.SelectedItem;
-                List<Cuenta> lcuentas = Servicio.Cargar_CuentasCLI(cli.Dni);
-                foreach (Cuenta c in lcuentas)
-                {
-                    dgvCuentas.Rows.Add(c.CodCuenta, c.TipoCuenta, c.Cbu, c.Saldo, c.NombreCli, c.UltimoMovimiento.ToString("d/MM/yyyy"));
-                }
+                MessageBox.Show("Seleccione un filtro", "Busqueda de cuentas", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return false;
             }
-            if (cboBuscar.Text == "Fecha de Movimientos")
+            if (cboBuscar.SelectedIndex > -1 && cboBuscarCli.SelectedIndex == -1 && !cboTipoCuenta.Enabled)
             {
-                dgvCuentas.Rows.Clear();
-
-                DateTime desde = dtpDesde.Value;
-                DateTime hasta = dtpHasta.Value;
-
-                List<Cuenta> lcuentas = Servicio.Cargar_CuentasFEC(desde, hasta);
-                foreach (Cuenta c in lcuentas)
-                {
-                    dgvCuentas.Rows.Add(c.CodCuenta, c.TipoCuenta, c.Cbu, c.Saldo, c.NombreCli, c.UltimoMovimiento.ToString("d/MM/yyyy"));
-                }
+                MessageBox.Show("Seleccione un Cliente", "Busqueda de cuentas", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return false;
             }
+            if (cboBuscar.SelectedIndex > -1 && cboBuscarTipoCuenta.SelectedIndex == -1 && !cboBuscarCli.Enabled)
+            {
+                MessageBox.Show("Seleccione un tipo de cuenta", "Busqueda de cuentas", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return false;
+            }
+            return true;
+
         }
 
         private void LimpiarFiltro_Click(object sender, EventArgs e)
         {
+            cboBuscar.SelectedIndex = -1;
+            cboBuscarCli.SelectedIndex = -1;
+            dtpDesde.Value = DateTime.Now;
+            dtpHasta.Value = DateTime.Now;
+            cboBuscarCli.Visible = false;
+            cboBuscarTipoCuenta.Visible = false;
+            lblDesde.Visible = false;
+            lblHasta.Visible = false;
+            dtpDesde.Visible = false;
+            dtpHasta.Visible = false;
             dgvCuentas.Rows.Clear();
             CargarCuentas();
         }
+
+        private void cboBuscarCli_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
     }
-    
+
 }

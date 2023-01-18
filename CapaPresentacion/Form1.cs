@@ -18,7 +18,7 @@ namespace CapaPresentacion
         {
             if (HelperDB.GetInstance().Logeo(txtUsuario.Text, txtContraseña.Text) == -1)
             {
-                MessageBox.Show("CONTRASEÑA Y/O USUARIO INCORRECTO","ATENCION");
+                MessageBox.Show("Contraseña y/o usuario incorrecto","ATENCION");
             }
             else
             {
@@ -46,8 +46,14 @@ namespace CapaPresentacion
             pbMostrar.Visible = v;
         }
 
-        
-       
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
 
+        }
+
+        private void panelLogin1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }
