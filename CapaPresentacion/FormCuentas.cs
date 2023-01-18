@@ -1,5 +1,6 @@
 ﻿using CapaPresentacion.Servicios.Implementacion;
 using CapaPresentacion.Servicios.Interfaces;
+using DataBanco.Datos.Interfaces;
 using DataBanco.Dominio;
 using System;
 using System.Collections.Generic;
@@ -27,11 +28,11 @@ namespace CapaPresentacion
         private void FormCuentas_Load(object sender, EventArgs e)
         {
             CargarCuentas();
-            CargarCboCli();
-            BuscarPor();
-            cboBuscar.SelectedIndex = 0;
+            CargarCboCli(cboCliente);
+            CargarCboCli(cboBuscarCli);
             Habilitar(true);
             LimpiarCampos();
+            IniciarFiltros();
         }
 
         private void CargarCuentas()
@@ -44,43 +45,15 @@ namespace CapaPresentacion
                 dgvCuentas.Rows.Add(c.CodCuenta, c.TipoCuenta, c.Cbu, c.Saldo, c.NombreCli, c.UltimoMovimiento.ToString("d/MM/yyyy"));
             }
         }
-        private void CargarCboCli()
+        private void CargarCboCli(ComboBox comboBox)
         {
 
-            cboCliente.DataSource = Servicio.ListClientes();
-            cboCliente.DisplayMember = "NombreCompleto";
-            cboCliente.ValueMember = "Id";
+            comboBox.DataSource = Servicio.ListClientes();
+            comboBox.DisplayMember = "NombreCompleto";
+            comboBox.ValueMember = "Id";
         }
-        private void BuscarPor()
-        {
-            if (cboBuscar.SelectedIndex == 0)
-            {
-                cboBusacarTipoCuenta.Visible = true;
-                cboBuscarCli.Visible = false;
-                lblDesde.Visible = false;
-                lblHasta.Visible = false;
-                dtpDesde.Visible = false;
-                dtpHasta.Visible = false;
-                if (cboBuscar.SelectedIndex == 1)
-                {
-                    cboBusacarTipoCuenta.Visible = false;
-                    cboBuscarCli.Visible = true;
-                    lblDesde.Visible = false;
-                    lblHasta.Visible = false;
-                    dtpDesde.Visible = false;
-                    dtpHasta.Visible = false;
-                }
-                if (cboBuscar.SelectedIndex == 2)
-                {
-                    cboBusacarTipoCuenta.Visible = false;
-                    cboBuscarCli.Visible = false;
-                    lblDesde.Visible = true;
-                    lblHasta.Visible = true;
-                    dtpDesde.Visible = true;
-                    dtpHasta.Visible = true;
-                }
-            }
-        }
+       
+       
         private void Habilitar(bool v)
         {
             btnAgregarCta.Enabled = v;
@@ -168,6 +141,93 @@ namespace CapaPresentacion
             var number = string.Concat(Enumerable.Range(0, 15).Select(x => random.Next(0, 10)));
             txtCBU.Clear();
             txtCBU.Text = number;
+        }
+
+        private void cboBuscar_TextChanged(object sender, EventArgs e)
+        {
+                if (cboBuscar.Text == "Tipo de Cuenta")
+                {
+                    cboBuscarTipoCuenta.Visible = true;
+                    cboBuscarCli.Visible = false;
+                    lblDesde.Visible = false;
+                    lblHasta.Visible = false;
+                    dtpDesde.Visible = false;
+                    dtpHasta.Visible = false;
+                }
+                if (cboBuscar.Text == "Cliente")
+                {
+                    cboBuscarCli.Visible = true;
+                    cboBuscarTipoCuenta.Visible = false;
+                    lblDesde.Visible = false;
+                    lblHasta.Visible = false;
+                    dtpDesde.Visible = false;
+                    dtpHasta.Visible = false;
+                }
+                if (cboBuscar.Text == "Fecha de Movimientos")
+                {
+
+                    lblDesde.Visible = true;
+                    lblHasta.Visible = true;
+                    dtpDesde.Visible = true;
+                    dtpHasta.Visible = true;
+                    cboBuscarTipoCuenta.Visible = false;
+                    cboBuscarCli.Visible = false;
+                }
+           
+        }
+        private void IniciarFiltros()
+        {
+            cboBuscarCli.Visible = false;
+            cboBuscarTipoCuenta.Visible = false;
+            lblDesde.Visible = false;
+            lblHasta.Visible = false;
+            dtpDesde.Visible = false;
+            dtpHasta.Visible = false;
+        }
+
+        private void btnBuscar_Click(object sender, EventArgs e)
+        {
+            if (cboBuscar.Text == "Tipo de Cuenta")
+            {
+                string tc = cboBuscarTipoCuenta.Text;
+                dgvCuentas.Rows.Clear();
+                List <Cuenta> lcuentas = Servicio.Cargar_CuentasTC(tc);
+                foreach (Cuenta c in lcuentas)
+                {
+                    dgvCuentas.Rows.Add(c.CodCuenta, c.TipoCuenta, c.Cbu, c.Saldo, c.NombreCli, c.UltimoMovimiento.ToString("d/MM/yyyy"));
+                }
+            }
+            if (cboBuscar.Text == "Cliente")
+            {
+                dgvCuentas.Rows.Clear();
+
+
+                Cliente cli = (Cliente)cboBuscarCli.SelectedItem;
+                List<Cuenta> lcuentas = Servicio.Cargar_CuentasCLI(cli.Dni);
+                foreach (Cuenta c in lcuentas)
+                {
+                    dgvCuentas.Rows.Add(c.CodCuenta, c.TipoCuenta, c.Cbu, c.Saldo, c.NombreCli, c.UltimoMovimiento.ToString("d/MM/yyyy"));
+                }
+            }
+            if (cboBuscar.Text == "Fecha de Movimientos")
+            {
+                dgvCuentas.Rows.Clear();
+
+                DateTime desde = dtpDesde.Value;
+                DateTime hasta = dtpHasta.Value;
+
+                List<Cuenta> lcuentas = Servicio.Cargar_CuentasFEC(desde, hasta);
+                foreach (Cuenta c in lcuentas)
+                {
+                    dgvCuentas.Rows.Add(c.CodCuenta, c.TipoCuenta, c.Cbu, c.Saldo, c.NombreCli, c.UltimoMovimiento.ToString("d/MM/yyyy"));
+                }
+            }
+        }
+
+        private void LimpiarFiltro_Click(object sender, EventArgs e)
+        {
+            dgvCuentas.Rows.Clear();
+            CargarCuentas();
         }
     }
     

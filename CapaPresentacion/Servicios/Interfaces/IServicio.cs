@@ -12,6 +12,10 @@ namespace CapaPresentacion.Servicios.Interfaces
         List<Cliente> ListClientes();
         List<Cuenta> Cuentas();
 
+        List<Cuenta> Cargar_CuentasTC(string tc);
+        List<Cuenta> Cargar_CuentasCLI(int dni);
+        List<Cuenta> Cargar_CuentasFEC(DateTime desde, DateTime hasta);
+
         bool BajaCliente(int c);
         bool AltaCli(Cliente c);    
         bool Modificacion(Cliente c);

@@ -151,7 +151,51 @@ namespace DataBanco.Datos
             return afectadas > 0;
 
         }
-       
+        /*--------------------------------------------------------------------------------------------------------------------------------
+         ----------------------------------------------------------------FILTROS-----------------------------------------------------------
+        -------------------------------------------------------------------------------------------------------------------------*/
+        public DataTable FiltroTipoCta(string Sp,string nombre)
+        {
+            DataTable dt = new DataTable();
+            if (cnn.State == ConnectionState.Closed)
+                cnn.Open();
 
+            SqlCommand cmd = new SqlCommand(Sp, cnn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@TipoCuenta", nombre);
+            dt.Load(cmd.ExecuteReader());
+            cnn.Close();
+
+            return dt;
+        }
+        public DataTable FiltroCliente(string Sp, int dni)
+        {
+            DataTable dt = new DataTable();
+            if (cnn.State == ConnectionState.Closed)
+                cnn.Open();
+
+            SqlCommand cmd = new SqlCommand(Sp, cnn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@dni", dni);
+            dt.Load(cmd.ExecuteReader());
+            cnn.Close();
+
+            return dt;
+        }
+        public DataTable FiltroFecha(string Sp, DateTime desde,DateTime hasta)
+        {
+            DataTable dt = new DataTable();
+            if (cnn.State == ConnectionState.Closed)
+                cnn.Open();
+
+            SqlCommand cmd = new SqlCommand(Sp, cnn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@desde", desde);
+            cmd.Parameters.AddWithValue("@hasta", hasta);
+            dt.Load(cmd.ExecuteReader());
+            cnn.Close();
+
+            return dt;
+        }
     }
 }

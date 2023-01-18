@@ -59,5 +59,20 @@ namespace CapaPresentacion.Servicios.Implementacion
         {
             return ctas.Baja(c);
         }
+
+        public List<Cuenta> Cargar_CuentasTC(string tc)
+        {
+           return ctas.Cargar_CuentasTC(tc);
+        }
+
+        public List<Cuenta> Cargar_CuentasCLI(int dni)
+        {
+            return ctas.Cargar_CuentasCLI(dni);
+        }
+
+        public List<Cuenta> Cargar_CuentasFEC(DateTime desde, DateTime hasta)
+        {
+            return ctas.Cargar_CuentasFEC(desde, hasta);
+        }
     }
 }

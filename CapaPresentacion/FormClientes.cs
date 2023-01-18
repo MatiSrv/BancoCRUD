@@ -9,7 +9,7 @@ namespace CapaPresentacion
     {
         private bool Editar;
         Cliente clienteselct;
-        //Editar columnas y todo para poder manejar nombre/apellido/nombrecompleto
+        
         public FormClientes()
         {
             InitializeComponent();
@@ -36,6 +36,7 @@ namespace CapaPresentacion
                 dgvClientes.Rows.Add(c.Id, c.Nombre, c.Apellido, c.Dni);
             }
         }
+   
         private void LimpiarCampos()
         {
             txtID.Clear();
@@ -156,7 +157,11 @@ namespace CapaPresentacion
                     MessageBox.Show("Ha ocurrido un error >:O" + ex.Message);
                 }
             }
+
+
         }
+        
     }
+
 
 }

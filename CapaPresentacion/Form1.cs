@@ -16,9 +16,9 @@ namespace CapaPresentacion
 
         private void btnIngresar_Click(object sender, EventArgs e)
         {
-            if (HelperDB.GetInstance().Logeo(txtUsuario.Text, txtContraseña.Text)==-1)
+            if (HelperDB.GetInstance().Logeo(txtUsuario.Text, txtContraseña.Text) == -1)
             {
-                MessageBox.Show("CONTRASEÑA INCORRECTA");
+                MessageBox.Show("CONTRASEÑA Y/O USUARIO INCORRECTO","ATENCION");
             }
             else
             {
@@ -26,8 +26,28 @@ namespace CapaPresentacion
                 this.Hide();
                 frm.ShowDialog();
                 frm.StartPosition = FormStartPosition.CenterScreen;
-                
+
             }
         }
+
+        private void pbMostrar_Click(object sender, EventArgs e)
+        {
+            VerContra(false);
+        }
+
+        private void pbOcultar_Click(object sender, EventArgs e)
+        {
+            VerContra(true);
+        }
+        private void VerContra(bool v)
+        {
+            txtContraseña.UseSystemPasswordChar = v;
+            pbOcultar.Visible = !v;
+            pbMostrar.Visible = v;
+        }
+
+        
+       
+
     }
 }
