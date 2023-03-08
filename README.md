@@ -1,7 +1,6 @@
 
 ## BancoCRUD
 
-- Aplicacion de escritorio utilizando Windows Forms
-- Tecnologias utilizadas: C# - ADO.NET - SQL SERVER
-
+- Desktop application using Windows Forms
+- Technologies: C# - ADO.NET - SQL SERVER
 
